@@ -103,7 +103,7 @@ func checkSubset(expected, target reflect.Value, visited map[uintptr]*visit, dep
 		if expected.IsNil() != target.IsNil() {
 			return false
 		}
-		if expected.Len() != target.Len() {
+		if expected.Len() > target.Len() {
 			return false
 		}
 		for i := 0; i < expected.Len(); i++ {
