@@ -3,7 +3,9 @@
 package subset
 
 import (
+	"fmt"
 	"reflect"
+	"strconv"
 )
 
 // During checkSubset, must keep track of checks that are
@@ -46,6 +48,17 @@ func checkSubset(expected, target reflect.Value, visited map[uintptr]*visit, dep
 		// fmt.Println("!target.IsValid()")
 		return false
 	}
+
+	switch expected.Kind() {
+	case reflect.Int:
+		if target.Kind() == reflect.Float64 {
+			targetValue := fmt.Sprintf("%.0f", safeInterface(target).(float64))
+			if i, err := strconv.Atoi(targetValue); err == nil {
+				target = reflect.ValueOf(i)
+			}
+		}
+	}
+
 	if expected.Type() != target.Type() {
 		// fmt.Println("Type() differs")
 		return false
