@@ -49,6 +49,7 @@ func checkSubset(expected, target reflect.Value, visited map[uintptr]*visit, dep
 		return false
 	}
 
+	// This enables number comparison for attribute value's
 	if (expected.Kind() == reflect.Int) && (target.Kind() == reflect.Float64) {
 		targetValue := fmt.Sprintf("%.0f", safeInterface(target).(float64))
 		if i, err := strconv.Atoi(targetValue); err == nil {
